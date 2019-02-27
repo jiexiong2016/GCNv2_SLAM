@@ -8,11 +8,11 @@ Online running performance with ORB and GCNv2 features:
 
 ORB:
 
-![](http://bsg.lericson.se/orb.gif)
+![](orb.gif)
 
 GCNv2:
 
-![](http://bsg.lericson.se/gcn.gif)
+![](gcn.gif)
 
 ## Related Publications
 
