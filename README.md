@@ -16,8 +16,8 @@ GCNv2:
 
 ## Related Publications
 
-* **[GCNv2: Efficient Correspondence Prediction for Real-Time SLAM](http://bsg.lericson.se/gcnv2.pdf)**, *J. Tang, L. Ericson, J. Folkesson and P. Jensfelt*, arxiv '19
-* **[Geometric Correspondence Network for Camera Motion Estimation](http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=8260906&isnumber=8214927)**, *J. Tang, J. Folkesson and P. Jensfelt*, RA-L and ICRA '18
+* **[GCNv2: Efficient Correspondence Prediction for Real-Time SLAM](https://arxiv.org/pdf/1902.11046.pdf)**, *J. Tang, L. Ericson, J. Folkesson and P. Jensfelt*, in arXiv:1902.11046, 2019
+* **[Geometric Correspondence Network for Camera Motion Estimation](http://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=8260906&isnumber=8214927)**, *J. Tang, J. Folkesson and P. Jensfelt*, RA-L and ICRA 2018
 
 # Dependencies
 
