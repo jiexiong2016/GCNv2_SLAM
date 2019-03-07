@@ -25,7 +25,14 @@ GCNv2:
 We use the new thread and chrono functionalities of C++11.
 
 ## Pytorch
-We use [Pytorch](https://github.com/pytorch/pytorch) C++ api for deloying the GCNv2. Dowload and install instructions can be found at: https://pytorch.org/. **Required at least 1.0.1. Lower version of pytorch has cuDNN linking issue:https://github.com/pytorch/pytorch/issues/14033#issuecomment-455046353.**
+We use [Pytorch](https://github.com/pytorch/pytorch) C++ api(libtorch) for deloying the GCNv2. The libtorch can be built as follows:
+```
+git clone --recursive -b v1.0.1 https://github.com/pytorch/pytorch
+cd pytorch && mkdir build && cd build
+python ../tools/build_libtorch.py
+```
+Other instructions can be found at: https://pytorch.org/. 
+**Required at least 1.0.1. Lower version of pytorch has cuDNN linking issue:https://github.com/pytorch/pytorch/issues/14033#issuecomment-455046353.**
 
 ## Pangolin
 We use [Pangolin](https://github.com/stevenlovegrove/Pangolin) for visualization and user interface. Dowload and install instructions can be found at: https://github.com/stevenlovegrove/Pangolin.
