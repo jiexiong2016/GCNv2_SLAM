@@ -237,10 +237,16 @@ void GCNextractor::operator()( InputArray _image, InputArray _mask, vector<KeyPo
 
     int img_width = 320;
     int img_height = 240;
-
-    auto img_tensor = torch::CPU(torch::kFloat32).tensorFromBlob(img.data, {1, img_height, img_width, 1});
-    img_tensor = img_tensor.permute({0,3,1,2});
-    auto img_var = torch::autograd::make_variable(img_tensor, false).to(device);
+    
+    #if defined(TORCH_NEW_API)
+        std::vector<int64_t> dims = {1, img_height, img_width, 1};
+        auto img_var = torch::from_blob(img.data, dims, torch::kFloat32).to(device);
+        img_var = img_var.permute({0,3,1,2});
+    #elif 
+        auto img_tensor = torch::CPU(torch::kFloat32).tensorFromBlob(img.data, {1, img_height, img_width, 1});
+        img_tensor = img_tensor.permute({0,3,1,2});
+        auto img_var = torch::autograd::make_variable(img_tensor, false).to(device);
+    #endif
 
     std::vector<torch::jit::IValue> inputs;
     inputs.push_back(img_var);
