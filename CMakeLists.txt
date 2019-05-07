@@ -35,7 +35,20 @@ endif()
 
 find_package(Eigen3 3.1.0 REQUIRED)
 find_package(Pangolin REQUIRED)
+
+if( TORCH_PATH ) 
+   message("TORCH_PATH set to: ${TORCH_PATH}")
+   set(Torch_DIR ${TORCH_PATH})
+else()
+   message(FATAL_ERROR "Need to specify Torch path, e.g., pytorch/torch/share/cmake/Torch ")
+endif()
+
 find_package(Torch REQUIRED)
+message(STATUS "Torch version is: ${Torch_VERSION}")
+if(Torch_VERSION GREATER 1.0.1)
+   message(STATUS "Torch version is newer than v1.0.1, will use new api")
+   add_definitions(-DTORCH_NEW_API)
+endif()
 
 include_directories(
   ${PROJECT_SOURCE_DIR}
