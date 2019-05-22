@@ -227,8 +227,11 @@ cv::Mat Tracking::GrabImageRGBD(const cv::Mat &imRGB, const cv::Mat &imD, const 
             cvtColor(mImGray,mImGray,CV_BGRA2GRAY);
     }
 
-    cv::resize(mImGray, mImGray, cv::Size(320, 240));
-    cv::resize(imDepth, imDepth, cv::Size(320, 240), 0, 0, cv::INTER_NEAREST);
+    if (getenv("NN_ONLY") != nullptr)
+    {
+        cv::resize(mImGray, mImGray, cv::Size(320, 240));
+        cv::resize(imDepth, imDepth, cv::Size(320, 240), 0, 0, cv::INTER_NEAREST);
+    }
 
     if((fabs(mDepthMapFactor-1.0f)>1e-5) || imDepth.type()!=CV_32F)
         imDepth.convertTo(imDepth,CV_32F,mDepthMapFactor);
@@ -325,20 +328,23 @@ void Tracking::Track()
                 // NN only keyframe tracking
                 bOK = TrackReferenceKeyFrame();
 
-#if 0
-                if(mVelocity.empty() || mCurrentFrame.mnId<mnLastRelocFrameId+2)
+                // Set NN_ONLY for neglecting other tracking heuristics of original ORB_SLAM2, used for farily compare with ORB feature
+                if (getenv("NN_ONLY") == nullptr)
                 {
-                    bOK = TrackReferenceKeyFrame();
-                }
-                else
-                {
-                    bOK = TrackWithMotionModel();
-                    if(!bOK)
+                    if(mVelocity.empty() || mCurrentFrame.mnId<mnLastRelocFrameId+2)
                     {
                         bOK = TrackReferenceKeyFrame();
                     }
+                    else
+                    {
+                        bOK = TrackWithMotionModel();
+                        if(!bOK)
+                        {
+                            bOK = TrackReferenceKeyFrame();
+                        }
+                    }
                 }
-#endif
+
             }
             else
             {

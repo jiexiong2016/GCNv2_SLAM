@@ -74,7 +74,7 @@ const int EDGE_THRESHOLD = 19;
 
 
 void nms(cv::Mat det, cv::Mat desc, std::vector<cv::KeyPoint>& pts, cv::Mat& descriptors,
-        int border, int dist_thresh, int img_width, int img_height){
+        int border, int dist_thresh, int img_width, int img_height, float ratio_width, float ratio_height){
 
     std::vector<cv::Point2f> pts_raw;
 
@@ -135,7 +135,7 @@ void nms(cv::Mat det, cv::Mat desc, std::vector<cv::KeyPoint>& pts, cv::Mat& des
             if (grid.at<char>(v,u) == 2)
             {
                 int select_ind = (int) inds.at<unsigned short>(v-dist_thresh, u-dist_thresh);
-                pts.push_back(cv::KeyPoint(pts_raw[select_ind], 1.0f));
+                pts.push_back(cv::KeyPoint(pts_raw[select_ind].x * ratio_width, pts_raw[select_ind].y * ratio_height, 1.0f));
 
                 select_indice.push_back(select_ind);
                 valid_cnt++;
@@ -238,6 +238,11 @@ void GCNextractor::operator()( InputArray _image, InputArray _mask, vector<KeyPo
     int img_width = 320;
     int img_height = 240;
     
+    float ratio_width = float(img.cols) / float(img_width);
+    float ratio_height = float(img.rows) / float(img_height);
+    
+    cv::resize(img, img, cv::Size(img_width, img_height));
+
     #if defined(TORCH_NEW_API)
         std::vector<int64_t> dims = {1, img_height, img_width, 1};
         auto img_var = torch::from_blob(img.data, dims, torch::kFloat32).to(device);
@@ -263,7 +268,7 @@ void GCNextractor::operator()( InputArray _image, InputArray _mask, vector<KeyPo
 
     std::vector<cv::KeyPoint> keypoints;
     cv::Mat descriptors;
-    nms(pts_mat, desc_mat, keypoints, descriptors, border, dist_thresh, img_width, img_height);
+    nms(pts_mat, desc_mat, keypoints, descriptors, border, dist_thresh, img_width, img_height, ratio_width, ratio_height);
 
     _keypoints.insert(_keypoints.end(), keypoints.begin(), keypoints.end());
     

@@ -1,5 +1,7 @@
 # Pytorch model specifications
 
+original models available at: https://drive.google.com/file/d/1MJMroL5-tl0b9__-OiCfxFP9K6X8kvTT/view
+
 ## GCNv2
 
 ```
