@@ -66,7 +66,7 @@ Then build the project
 cd GCNv2_SLAM
 ./build.sh
 ```
-Make sure to edit `build.sh` pointing to your local libtorch installation. Edit `run.sh` to check out how to run with GCNv2 or vanilla ORB.
+Make sure to edit `build.sh` pointing to your local libtorch installation. Edit `run.sh` to check out how to run with GCNv2 or vanilla ORB. Check the `Network.md` for the network structure and [link](https://drive.google.com/file/d/1MJMroL5-tl0b9__-OiCfxFP9K6X8kvTT/view) for trained models.
 
 # Demonstration video
 
