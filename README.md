@@ -68,6 +68,9 @@ cd GCNv2_SLAM
 ```
 Make sure to edit `build.sh` pointing to your local libtorch installation. Edit `run.sh` to check out how to run with GCNv2 or vanilla ORB. Check the `Network.md` for the network structure and [link](https://drive.google.com/file/d/1MJMroL5-tl0b9__-OiCfxFP9K6X8kvTT/view) for trained models.
 
+# Image resolution
+The GCNv2 model is currently trained by image with resolution 320x240. This resolution is for achieving the real-time performance on Jetson TX2. It is therefore recommended to use the same resolution for other testing. I currently added a hacky fix to allow the input to be arbitrary size by simply upscaling the keypoint coordinates. It is not ideal, will add model trained with other resolutions later on.
+
 # Demonstration video
 
 [![YouTube video thumbnail](https://i.ytimg.com/vi/pz-gdnR9tAM/hqdefault.jpg)](https://www.youtube.com/watch?v=pz-gdnR9tAM)
