@@ -70,6 +70,7 @@ Make sure to edit `build.sh` pointing to your local libtorch installation. Edit 
 
 # Image resolution
 The GCNv2 model is currently trained by image with resolution 320x240. This resolution is for achieving the real-time performance on Jetson TX2. It is therefore recommended to use the same resolution for other testing. I currently added a hacky fix to allow the input to be arbitrary size by simply upscaling the keypoint coordinates. It is not ideal, will add model trained with other resolutions later on.
+**Update** Set "FULL_RESOLUTION=1" and use "gcn2_640x480.pt" intead. It shouldn't have degraded performance now.
 
 # Demonstration video
 
