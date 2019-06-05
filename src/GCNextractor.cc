@@ -237,6 +237,12 @@ void GCNextractor::operator()( InputArray _image, InputArray _mask, vector<KeyPo
 
     int img_width = 320;
     int img_height = 240;
+
+    if (getenv("FULL_RESOLUTION") != nullptr)
+    {
+        img_width = 640;
+        img_height = 480;
+    }
     
     float ratio_width = float(img.cols) / float(img_width);
     float ratio_height = float(img.rows) / float(img_height);
