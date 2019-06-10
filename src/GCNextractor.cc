@@ -238,10 +238,16 @@ void GCNextractor::operator()( InputArray _image, InputArray _mask, vector<KeyPo
     int img_width = 320;
     int img_height = 240;
 
+    int border = 8;
+    int dist_thresh = 4;
+
     if (getenv("FULL_RESOLUTION") != nullptr)
     {
         img_width = 640;
         img_height = 480;
+
+        border = 16;
+        dist_thresh = 8;
     }
     
     float ratio_width = float(img.cols) / float(img_width);
@@ -268,9 +274,6 @@ void GCNextractor::operator()( InputArray _image, InputArray _mask, vector<KeyPo
 
     cv::Mat pts_mat(cv::Size(3, pts.size(0)), CV_32FC1, pts.data<float>());
     cv::Mat desc_mat(cv::Size(32, pts.size(0)), CV_8UC1, desc.data<unsigned char>());
-
-    int border = 8;
-    int dist_thresh = 4;
 
     std::vector<cv::KeyPoint> keypoints;
     cv::Mat descriptors;
