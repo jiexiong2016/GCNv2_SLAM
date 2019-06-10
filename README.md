@@ -69,7 +69,7 @@ cd GCNv2_SLAM
 Make sure to edit `build.sh` pointing to your local libtorch installation. Edit `run.sh` to check out how to run with GCNv2 or vanilla ORB. Check the `Network.md` for the network structure and [link](https://drive.google.com/file/d/1MJMroL5-tl0b9__-OiCfxFP9K6X8kvTT/view) for trained models.
 
 # Image resolution
-**Update** Set "FULL_RESOLUTION=1" and use "gcn2_640x480.pt" to test with image resolution "640x480" intead. It shouldn't have degraded performance now.
+**Update** Set "FULL_RESOLUTION=1" and use "gcn2_640x480.pt" to test with image resolution "640x480" intead. The input image size should be consitent with the model to be used.
 
 # Demonstration video
 
