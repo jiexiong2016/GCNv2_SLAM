@@ -227,7 +227,7 @@ cv::Mat Tracking::GrabImageRGBD(const cv::Mat &imRGB, const cv::Mat &imD, const 
             cvtColor(mImGray,mImGray,CV_BGRA2GRAY);
     }
 
-    if (getenv("NN_ONLY") != nullptr)
+    if (getenv("NN_ONLY") != nullptr || getenv("FULL_RESOLUTION") == nullptr)
     {
         cv::resize(mImGray, mImGray, cv::Size(320, 240));
         cv::resize(imDepth, imDepth, cv::Size(320, 240), 0, 0, cv::INTER_NEAREST);
