@@ -14,27 +14,28 @@ project(ORB_SLAM2)
 message(${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 add_library(${PROJECT_NAME} ${LIB_TYPE}
-src/System.cc
-src/Tracking.cc
+src/Converter.cc
+src/FeatureExtractor.cc
+src/FeatureExtractorFactory.cc
+src/Frame.cc
+src/FrameDrawer.cc
+src/GCNextractor.cc
+src/Initializer.cc
+src/KeyFrame.cc
+src/KeyFrameDatabase.cc
 src/LocalMapping.cc
 src/LoopClosing.cc
-src/FeatureExtractor.cc
-#src/GCNextractor.cc
+src/Map.cc
+src/MapDrawer.cc
+src/MapPoint.cc
+src/Optimizer.cc
 src/ORBextractor.cc
 src/ORBmatcher.cc
 src/ORBVocabulary.cc
-src/FrameDrawer.cc
-src/Converter.cc
-src/MapPoint.cc
-src/KeyFrame.cc
-src/Map.cc
-src/MapDrawer.cc
-src/Optimizer.cc
 src/PnPsolver.cc
-src/Frame.cc
-src/KeyFrameDatabase.cc
 src/Sim3Solver.cc
-src/Initializer.cc
+src/System.cc
+src/Tracking.cc
 src/Viewer.cc
 )
 

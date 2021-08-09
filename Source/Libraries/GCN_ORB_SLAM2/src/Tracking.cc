@@ -24,8 +24,6 @@
 #include<opencv2/core/core.hpp>
 #include<opencv2/features2d/features2d.hpp>
 
-#include"ORBextractor.h"
-//#include"GCNextractor.h"
 #include"ORBmatcher.h"
 #include"FrameDrawer.h"
 #include"Converter.h"
@@ -34,6 +32,7 @@
 
 #include"Optimizer.h"
 #include"PnPsolver.h"
+#include "FeatureExtractorFactory.h"
 
 #include <iostream>
 #include <thread>
@@ -121,14 +120,13 @@ Tracking::Tracking(System *pSys, ORBVocabulary* pVoc, FrameDrawer *pFrameDrawer,
     int fIniThFAST = fSettings["ORBextractor.iniThFAST"];
     int fMinThFAST = fSettings["ORBextractor.minThFAST"];
 
-    if (getenv("USE_ORB") == nullptr)
-    {
-      mpFeatureExtractor = nullptr;//new GCNextractor(nFeatures,fScaleFactor,nLevels,fIniThFAST,fMinThFAST);
-    }
-    else
-    {
-        mpFeatureExtractorLeft = new ORBextractor(nFeatures,fScaleFactor,nLevels,fIniThFAST,fMinThFAST);
-    }
+    mpFeatureExtractorLeft = createFeatureExtractor(nFeatures,fScaleFactor,nLevels,fIniThFAST,fMinThFAST);
+
+    if(sensor==System::STEREO)
+        mpFeatureExtractorRight = createFeatureExtractor(nFeatures,fScaleFactor,nLevels,fIniThFAST,fMinThFAST);
+
+    if(sensor==System::MONOCULAR)
+        mpIniFeatureExtractor = createFeatureExtractor(2*nFeatures,fScaleFactor,nLevels,fIniThFAST,fMinThFAST);
 
     cout << endl  << "ORB Extractor Parameters: " << endl;
     cout << "- Number of Features: " << nFeatures << endl;

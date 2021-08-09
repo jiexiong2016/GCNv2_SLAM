@@ -41,6 +41,20 @@ if(NOT OpenCV_FOUND)
 endif()
 message(STATUS "OPENCV VERSION:" ${OpenCV_VERSION})
 
+# Torch stuff
+#if( TORCH_PATH ) 
+#   message("TORCH_PATH set to: ${TORCH_PATH}")
+#   set(Torch_DIR ${TORCH_PATH})
+#else()
+#   message(FATAL_ERROR "Need to specify Torch path, e.g., pytorch/torch/share/cmake/Torch ")
+#endif()
+
+#set(Torch_DIR "~/anaconda3/envs/myenv/lib/python3.7/site-packages/torch/share/cmake/Torch")  # libtorch
+#find_package(Torch REQUIRED)
+#message(STATUS "Torch version is: ${Torch_VERSION}")
+
+set(USE_TORCH false)
+
 # Find the other necessary packages
 find_package(Eigen3 REQUIRED)
 find_package(Pangolin REQUIRED)
@@ -50,7 +64,7 @@ find_package(g2o REQUIRED)
 
 # Add the libraries and examples
 add_subdirectory(Libraries)
-#add_subdirectory(Examples)
+add_subdirectory(Examples)
 add_subdirectory(Resources)
 
 # Third party libraries are built separately to speed things up
