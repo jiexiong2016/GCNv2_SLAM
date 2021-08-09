@@ -50,7 +50,7 @@ find_package(g2o REQUIRED)
 
 # Add the libraries and examples
 add_subdirectory(Libraries)
-add_subdirectory(Examples)
+#add_subdirectory(Examples)
 add_subdirectory(Resources)
 
 # Third party libraries are built separately to speed things up

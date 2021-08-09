@@ -18,6 +18,8 @@ src/System.cc
 src/Tracking.cc
 src/LocalMapping.cc
 src/LoopClosing.cc
+src/FeatureExtractor.cc
+#src/GCNextractor.cc
 src/ORBextractor.cc
 src/ORBmatcher.cc
 src/ORBVocabulary.cc

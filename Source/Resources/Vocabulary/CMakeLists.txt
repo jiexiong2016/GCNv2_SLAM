@@ -1,13 +1,8 @@
 PROJECT(ORB-SLAM_Vocabulary)
 
-if (${CMAKE_VERSION} VERSION_GREATER_EQUAL "3.18.0")
-  add_custom_command(OUTPUT ORBvoc.txt COMMAND file(ARCHIVE_EXTRACT INPUT ${CMAKE_CURRENT_SOURCE_DIR}/ORBvoc.txt.tar.gz))
-  add_custom_command(OUTPUT ${DEFAULT_ORB_VOCABULARY_DIR} COMMAND file(MAKE_DIRECTORY ${DEFAULT_ORB_VOCABULARY_DIR}) DEPENDS ORBvoc.txt)
-  add_custom_command(OUTPUT ${DEFAULT_ORB_VOCABULARY} COMMAND file(COPY INPUT ORBvoc.txt ${DEFAULT_ORB_VOCABULARY}) DEPENDS ${DEFAULT_ORB_VOCABULARY_DIR})
-else()
-  add_custom_command(OUTPUT ORBvoc.txt COMMAND ${CMAKE_COMMAND} -E tar xvf ${CMAKE_CURRENT_SOURCE_DIR}/ORBvoc.txt.tar.gz)
-  add_custom_command(OUTPUT ${DEFAULT_ORB_VOCABULARY_DIR} COMMAND ${CMAKE_COMMAND} -E make_directory ${DEFAULT_ORB_VOCABULARY_DIR} DEPENDS ORBvoc.txt)
-  add_custom_command(OUTPUT ${DEFAULT_ORB_VOCABULARY} COMMAND ${CMAKE_COMMAND} -E copy ORBvoc.txt ${DEFAULT_ORB_VOCABULARY} DEPENDS ${DEFAULT_ORB_VOCABULARY_DIR})
-endif()
+add_custom_command(OUTPUT ORBvoc.bin GCNvoc.bin COMMAND ${CMAKE_COMMAND} -E tar xvf ${CMAKE_CURRENT_SOURCE_DIR}/voc.tar.bz2)
+add_custom_command(OUTPUT ${DEFAULT_ORB_VOCABULARY_DIR} ${CMAKE_COMMAND} -E make_directory ${DEFAULT_ORB_VOCABULARY_DIR})
+add_custom_command(OUTPUT default_orb_vocabulary COMMAND ${CMAKE_COMMAND} -E copy ORBvoc.bin ${DEFAULT_ORB_VOCABULARY_DIR}/ORBvoc.bin DEPENDS ORBvoc.bin)
+add_custom_command(OUTPUT default_gcn_vocabulary COMMAND ${CMAKE_COMMAND} -E copy GCNvoc.bin ${DEFAULT_ORB_VOCABULARY_DIR}/GCNvoc.bin DEPENDS GCNvoc.bin)
 
-add_custom_target(orb_vocabulary ALL DEPENDS ${DEFAULT_ORB_VOCABULARY})
+add_custom_target(orb_vocabulary ALL DEPENDS default_orb_vocabulary default_gcn_vocabulary)

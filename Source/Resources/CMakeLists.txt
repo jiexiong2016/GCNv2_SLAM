@@ -4,5 +4,5 @@ project(Resources)
 
 
 add_subdirectory(Vocabulary)
-add_subdirectory(Tools)
+#add_subdirectory(Tools)
 
