@@ -16,9 +16,9 @@ public:
     enum {HARRIS_SCORE=0, FAST_SCORE=1 };
 
     
-    const int PATCH_SIZE = 31;
-    const int HALF_PATCH_SIZE = 15;
-    const int EDGE_THRESHOLD = 19;
+    static const int PATCH_SIZE = 31;
+    static const int HALF_PATCH_SIZE = 15;
+    static const int EDGE_THRESHOLD = 19;
 
     FeatureExtractor(int nfeatures, float scaleFactor, int nlevels,
                  int iniThFAST, int minThFAST);

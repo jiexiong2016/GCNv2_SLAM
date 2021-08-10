@@ -1,0 +1,4 @@
+
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/GCN2)
+add_executable(rgbd_gcn rgbd_gcn.cc)
+target_link_libraries(rgbd_gcn ${PROJECT_NAME})

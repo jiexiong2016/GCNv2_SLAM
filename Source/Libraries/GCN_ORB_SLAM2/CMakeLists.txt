@@ -13,13 +13,19 @@ endif()
 project(ORB_SLAM2)
 message(${CMAKE_CURRENT_SOURCE_DIR}/include)
 
+
+if (USE_GCN)
+set(GCN_SOURCE src/GCNextractor.cc)
+endif()
+
+
 add_library(${PROJECT_NAME} ${LIB_TYPE}
 src/Converter.cc
 src/FeatureExtractor.cc
 src/FeatureExtractorFactory.cc
 src/Frame.cc
 src/FrameDrawer.cc
-src/GCNextractor.cc
+${GCN_SOURCE}
 src/Initializer.cc
 src/KeyFrame.cc
 src/KeyFrameDatabase.cc

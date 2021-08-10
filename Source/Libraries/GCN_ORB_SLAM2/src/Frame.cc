@@ -189,7 +189,7 @@ Frame::Frame(const cv::Mat &imGray, const double &timeStamp, FeatureExtractor* e
     mvInvLevelSigma2 = mpFeatureExtractorLeft->GetInverseScaleSigmaSquares();
 
     // ORB extraction
-    ExtractFeatures(0,imGray);
+    ExtractFeatures(0, imGray);
 
     N = mvKeys.size();
 
