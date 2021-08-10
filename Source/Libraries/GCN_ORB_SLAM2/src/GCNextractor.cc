@@ -157,7 +157,19 @@ GCNextractor::GCNextractor(int _nfeatures, float _scaleFactor, int _nlevels,
 			   int _iniThFAST, int _minThFAST): FeatureExtractor(_nfeatures, _scaleFactor, _nlevels, _iniThFAST, _minThFAST)
 {
     const char *net_fn = getenv("GCN_PATH");
-    net_fn = (net_fn == nullptr) ? "gcn2_640x480.pt" : net_fn;
+
+    // If a network isn't defined, pick the default which matches the resolution
+    if (net_fn == nullptr)
+      {
+	if (getenv("FULL_RESOLUTION") == nullptr)
+	  {
+	    net_fn = "gcn2_320x240.pt";
+	  }
+	else
+	  {
+	    net_fn = "gcn2_640x480.pt";
+	  }
+      }
     string networkName = string(DEFAULT_GCN_SCRIPT_DIR) + string("/") + string(net_fn);
     cout << "Loading " << networkName << endl;
     module = torch::jit::load(networkName);
@@ -168,7 +180,7 @@ void GCNextractor::operator()( InputArray _image, InputArray _mask, vector<KeyPo
 { 
 
     torch::DeviceType device_type;
-    device_type = torch::kCUDA;
+    device_type = torch::kCPU;
     torch::Device device(device_type);
 
     if(_image.empty())

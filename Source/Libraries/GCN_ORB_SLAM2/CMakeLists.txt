@@ -1,7 +1,18 @@
+project(ORB_SLAM2)
+
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include ${DBoW2_INCLUDE_DIR} ${DLib_INCLUDE_DIR})
 
+if (USE_GCN)
+  include_directories(${TORCH_INCLUDE_DIRS})
+  if (${CMAKE_VERSION} VERSION_GREATER_EQUAL "3.12.0")
+      add_compile_definitions(USE_GCN="${USE_GCN}")
+  else()
+      add_definitions(-DUSE_GCN="${USE_GCN}")
+  endif()
+endif()
+
 if(NOT DEFINED BUILD_SHARED_LIBRARIES)
-  set(BUILD_SHARED_LIBRARIES NO)
+  set(BUILD_SHARED_LIBRARIES YES)
 endif()
 
 if(BUILD_SHARED_LIBRARIES)
@@ -10,14 +21,9 @@ else()
   set(LIB_TYPE STATIC)
 endif()
 
-project(ORB_SLAM2)
-message(${CMAKE_CURRENT_SOURCE_DIR}/include)
-
-
 if (USE_GCN)
-set(GCN_SOURCE src/GCNextractor.cc)
+  set(GCN_SOURCE src/GCNextractor.cc)
 endif()
-
 
 add_library(${PROJECT_NAME} ${LIB_TYPE}
 src/Converter.cc
@@ -45,15 +51,18 @@ src/Tracking.cc
 src/Viewer.cc
 )
 
+message(TORCH_LIBRARIES=${TORCH_LIBRARIES})
+
 target_link_libraries(${PROJECT_NAME}
-${OpenCV_LIBS}
-Eigen3::Eigen
-pangolin
-${DBoW2_LIBS}
-${DLib_LIBS}
-g2o::types_sba
-g2o::types_sim3
-g2o::core
+  pangolin
+  ${DBoW2_LIBS}
+  ${DLib_LIBS}
+  ${TORCH_LIBRARIES}
+  g2o::types_sba
+  g2o::types_sim3
+  g2o::core
+  ${OpenCV_LIBS}
+  Eigen3::Eigen
 )
 
 target_include_directories(${PROJECT_NAME} PUBLIC

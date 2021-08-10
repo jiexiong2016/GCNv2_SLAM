@@ -7,7 +7,7 @@ else()
 endif()
 
 add_executable(mono_tum mono_tum.cc)
-target_link_libraries(mono_tum ORB_SLAM2)
+target_link_libraries(mono_tum ORB_SLAM2  ${TORCH_LIBRARIES})
 
 add_executable(mono_euroc mono_euroc.cc)
 target_link_libraries(mono_euroc ORB_SLAM2)

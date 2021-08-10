@@ -68,7 +68,7 @@ namespace ORB_SLAM2 {
 
 
         //Load ORB Vocabulary
-        cout << endl << "Loading ORB Vocabulary. This could take a while..." << endl;
+        cout << endl << "Loading ORB Vocabulary " << strVocFile << endl << "This could take a while..." << endl;
         clock_t tStart = clock();
         mpVocabulary = new ORBVocabulary();
 

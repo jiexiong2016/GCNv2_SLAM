@@ -4,5 +4,6 @@ project(Resources)
 
 
 add_subdirectory(Vocabulary)
+add_subdirectory(GCN)
 #add_subdirectory(Tools)
 
