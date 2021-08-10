@@ -24,7 +24,7 @@
 #include "FeatureExtractor.h"
 
 #include <torch/script.h> // One-stop header.
-#include <torch/torch.h>
+//#include <torch/torch.h>
 
 // Compile will fail for opimizier since pytorch defined this
 #ifdef EIGEN_MPL2_ONLY
@@ -54,7 +54,7 @@ public:
 
 protected:
 
-    std::shared_ptr<torch::jit::script::Module> module;
+  torch::jit::script::Module module;
 };
 
 } //namespace ORB_SLAM
