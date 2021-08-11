@@ -61,6 +61,8 @@
 #include <iostream>
 #include <vector>
 
+#include <torch/torch.h>
+
 #include "GCNextractor.h"
 
 
@@ -156,18 +158,34 @@ void nms(cv::Mat det, cv::Mat desc, std::vector<cv::KeyPoint>& pts, cv::Mat& des
 GCNextractor::GCNextractor(int _nfeatures, float _scaleFactor, int _nlevels,
 			   int _iniThFAST, int _minThFAST): FeatureExtractor(_nfeatures, _scaleFactor, _nlevels, _iniThFAST, _minThFAST)
 {
-    const char *net_fn = getenv("GCN_PATH");
+
+  bool cudaAvailable = torch::cuda::is_available();
+  const char *net_fn = getenv("GCN_PATH");
 
     // If a network isn't defined, pick the default which matches the resolution
     if (net_fn == nullptr)
       {
 	if (getenv("FULL_RESOLUTION") == nullptr)
 	  {
-	    net_fn = "gcn2_320x240.pt";
+	    if (cudaAvailable == true)
+	      {
+		net_fn = "gcn2_320x240.pt";
+	      }
+	    else
+	      {
+		net_fn = "gcn2_320x240_cpu.pt";
+	      }
 	  }
 	else
 	  {
-	    net_fn = "gcn2_640x480.pt";
+	    if (cudaAvailable == true)
+	      {
+		net_fn = "gcn2_640x480.pt";
+	      }
+	    else
+	      {
+		net_fn = "gcn2_640x480_cpu.pt";
+	      }
 	  }
       }
     string networkName = string(DEFAULT_GCN_SCRIPT_DIR) + string("/") + string(net_fn);
@@ -180,7 +198,15 @@ void GCNextractor::operator()( InputArray _image, InputArray _mask, vector<KeyPo
 { 
 
     torch::DeviceType device_type;
-    device_type = torch::kCPU;
+    if (torch::cuda::is_available() == true)
+      {
+	device_type = torch::kCUDA;
+      }
+    else
+      {
+	device_type = torch::kCPU;
+      }
+
     torch::Device device(device_type);
 
     if(_image.empty())
@@ -212,19 +238,25 @@ void GCNextractor::operator()( InputArray _image, InputArray _mask, vector<KeyPo
     
     cv::resize(img, img, cv::Size(img_width, img_height));
 
-    auto img_tensor = torch::from_blob(img.data, {1, img_height, img_width, 1}).to(device);
-    img_tensor = img_tensor.permute({0,3,1,2});
-    auto img_var = torch::autograd::make_variable(img_tensor, false).to(device);
-
+    #if defined(TORCH_NEW_API)
+        std::vector<int64_t> dims = {1, img_height, img_width, 1};
+        auto img_var = torch::from_blob(img.data, dims, torch::kFloat32).to(device);
+        img_var = img_var.permute({0,3,1,2});
+    #else 
+        auto img_tensor = torch::CPU(torch::kFloat32).tensorFromBlob(img.data, {1, img_height, img_width, 1});
+        img_tensor = img_tensor.permute({0,3,1,2});
+        auto img_var = torch::autograd::make_variable(img_tensor, false).to(device);
+    #endif
+    
     std::vector<torch::jit::IValue> inputs;
     inputs.push_back(img_var);
-    auto output = module.forward(inputs).toTuple();
+    auto output = module->forward(inputs).toTuple();
 
     auto pts  = output->elements()[0].toTensor().to(torch::kCPU).squeeze();
     auto desc = output->elements()[1].toTensor().to(torch::kCPU).squeeze();
 
-    cv::Mat pts_mat(cv::Size(3, pts.size(0)), CV_32FC1, pts.data_ptr<float>());
-    cv::Mat desc_mat(cv::Size(32, pts.size(0)), CV_8UC1, desc.data_ptr<unsigned char>());
+    cv::Mat pts_mat(cv::Size(3, pts.size(0)), CV_32FC1, pts.data<float>());
+    cv::Mat desc_mat(cv::Size(32, pts.size(0)), CV_8UC1, desc.data<unsigned char>());
 
     std::vector<cv::KeyPoint> keypoints;
     cv::Mat descriptors;

@@ -52,7 +52,7 @@ public:
 
 protected:
 
-  torch::jit::script::Module module;
+  std::shared_ptr<torch::jit::script::Module> module;
 };
 
 } //namespace ORB_SLAM
