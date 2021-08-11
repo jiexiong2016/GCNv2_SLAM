@@ -1,0 +1,11 @@
+The CUDA install requires using CUDA 9.2 and cuDNN7.
+
+CUDA 9.2 can be installed via:
+
+sudo apt install cuda-toolkit-9-2
+
+cuDNN7 should be downloaded from:
+
+https://developer.nvidia.com/rdp/cudnn-archive
+
+The CUDA 9.2 version should be used.
