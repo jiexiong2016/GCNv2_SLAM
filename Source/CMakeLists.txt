@@ -37,21 +37,11 @@ find_package(DLib REQUIRED)
 find_package(g2o REQUIRED)
 
 # Find torch and add its antiquated cmake stuff.
-set(CMAKE_PREFIX_PATH "~/anaconda3/lib/python3.7/site-packages/torch/share/cmake/Torch")  # libtorch
+set(CONDA_PREFIX $ENV{CONDA_PREFIX})
+list(APPEND CMAKE_PREFIX_PATH "${CONDA_PREFIX}/lib/python3.7/site-packages/torch/share/cmake/Torch")  # libtorch
 find_package(Torch REQUIRED)
 message(STATUS "Torch version is: ${Torch_VERSION}")
-
-#find_package(Torch REQUIRED)
-#message(TORCH_CXX_FLAGS=${TORCH_CXX_FLAGS})
-#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${TORCH_CXX_FLAGS}")
 set(USE_GCN YES)
-
-# One of the torch dependent libraries screws around with the linker
-# flags. The only way to prevent linker issues is to build a shared
-# library. Sheesh.
-if(NOT ${BUILD_SHARED_LIBRARIES})
-message(FATAL_ERROR Must be built using shared libraries.)
-endif()
 
 # The default vocabulary.
 set(DEFAULT_ORB_VOCABULARY_DIR "${BUILD_INSTALL_PREFIX}/var/lib/orbslam2")
