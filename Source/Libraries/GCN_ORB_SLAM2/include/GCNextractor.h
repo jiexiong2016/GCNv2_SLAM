@@ -37,10 +37,8 @@ namespace ORB_SLAM2
   class GCNextractor : public FeatureExtractor
 {
 public:
-    
-    enum {HARRIS_SCORE=0, FAST_SCORE=1 };
 
-    GCNextractor(int nfeatures, float scaleFactor, int nlevels,
+  GCNextractor(int nfeatures, float scaleFactor, int nlevels,
                  int iniThFAST, int minThFAST);
 
     virtual ~GCNextractor(){}
