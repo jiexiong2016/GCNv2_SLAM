@@ -26,6 +26,6 @@ echo Build type ${build_type} using ${num_jobs} parallel jobs
 root_dir=`pwd`
 mkdir -p Build/${build_type}/Source
 pushd Build/${build_type}/Source > /dev/null
-cmake ${root_dir}/Source -DCMAKE_BUILD_TYPE=${build_type} -DCMAKE_INSTALL_PREFIX=${BUILD_INSTALL_PREFIX}
+cmake ${root_dir}/Source -DCMAKE_BUILD_TYPE=${build_type} -DCMAKE_INSTALL_PREFIX=${BUILD_INSTALL_PREFIX} -DBUILD_SHARED_LIBRARIES=FALSE
 make -j${num_jobs}
 popd

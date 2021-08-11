@@ -26,6 +26,6 @@ echo Build type ${build_type} using ${num_jobs} parallel jobs
 root_dir=`pwd`
 mkdir -p Build/${build_type}/Source/ThirdParty
 pushd Build/${build_type}/Source/ThirdParty > /dev/null
-cmake ${root_dir}/Source/ThirdParty -DCMAKE_BUILD_TYPE=${build_type}
+cmake ${root_dir}/Source/ThirdParty -DCMAKE_BUILD_TYPE=${build_type} -DBUILD_SHARED_LIBRARIES=FALSE
 make -j${num_jobs}
 popd
